@@ -1,0 +1,16 @@
+minikube start --namespace hadoop-cluster --profile hadoop-cluster
+kubectl describe svc kafka-broker -n hadoop-cluster
+kubectl scale deployment kafka-producer --replicas=0 -n hadoop-cluster
+kubectl get deployments -n hadoop-cluster
+kubectl describe pod kafka-producer-84694cc8f6-657v2 -n hadoop-cluster
+kubectl apply -f ./kafka-produce/kafka-producer-deployment.yaml -n hadoop-cluster
+docker login
+docker build -t lmphuc3012/python-kafka-producer .
+docker push lmphuc3012/python-kafka-producer
+helm install spark ./spark
+helm uninstall spark
+helm upgrade spark ./spark -f ./spark/values.yaml
+kubectl create configmap hadoop-config --from-file=./hadoop-conf -o yaml --dry-run=client | kubectl replace -f -
+kubectl cp target/spark-jobs-1.0-SNAPSHOT.jar spark-master-0:/tmp
+kubectl port-forward hadoop-hadoop-yarn-rm-0 8088:8088
+kubectl port-forward hadoop-hadoop-hdfs-nn-0 9870:9870

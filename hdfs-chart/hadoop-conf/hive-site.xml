@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<configuration>
+    <!-- Hive Metastore connection configuration -->
+    <property>
+        <name>javax.jdo.option.ConnectionURL</name>
+        <value>jdbc:postgresql://hive-metastore-postgresql:5432/metastore</value>
+        <description>JDBC connect string for a JDBC metastore</description>
+    </property>
+    <property>
+        <name>javax.jdo.option.ConnectionDriverName</name>
+        <value>org.postgresql.Driver</value>
+        <description>Driver class name for a JDBC metastore</description>
+    </property>
+    <property>
+        <name>javax.jdo.option.ConnectionUserName</name>
+        <value>hive</value>
+        <description>Username to use against metastore database</description>
+    </property>
+    <property>
+        <name>javax.jdo.option.ConnectionPassword</name>
+        <value>hive</value>
+        <description>Password to use against metastore database</description>
+    </property>
+
+    <!-- Hive Metastore configuration -->
+    <property>
+        <name>hive.metastore.uris</name>
+        <value>thrift://hive-metastore:9083</value>
+        <description>URI for the remote metastore. Used by metastore client to connect to remote metastore.</description>
+    </property>
+
+    <!-- Hadoop configurations -->
+    <property>
+        <name>hive.exec.scratchdir</name>
+        <value>/tmp/hive</value>
+        <description>Scratch space for Hive jobs</description>
+    </property>
+    <property>
+        <name>hive.metastore.warehouse.dir</name>
+        <value>/user/hive/warehouse</value>
+        <description>Location of default database for the warehouse</description>
+    </property>
+
+    <!-- Execution Engine Configuration -->
+    <property>
+        <name>hive.execution.engine</name>
+        <value>mr</value>
+        <description>Choose between different execution engines. Options are: mr, tez, spark.</description>
+    </property>
+
+    <!-- HDFS and YARN configuration -->
+    <property>
+        <name>hive.hadoop.supports.splittable.combineinputformat</name>
+        <value>true</value>
+        <description>Enable HDFS and YARN configurations</description>
+    </property>
+<property><name>hive.metastore.uris</name><value>thrift://hive-metastore:9083</value></property>
+<property><name>datanucleus.autoCreateSchema</name><value>false</value></property>
+<property><name>javax.jdo.option.ConnectionURL</name><value>jdbc:postgresql://hive-metastore-postgresql/metastore</value></property>
+<property><name>javax.jdo.option.ConnectionDriverName</name><value>org.postgresql.Driver</value></property>
+<property><name>javax.jdo.option.ConnectionPassword</name><value>hive</value></property>
+<property><name>javax.jdo.option.ConnectionUserName</name><value>hive</value></property>
+    <!--
+    <property>
+        <name>spark.master</name>
+        <value>yarn</value>
+    </property>
+    <property>
+        <name>hive.spark.client.server.clean.interval</name>
+        <value>3600</value>
+    </property>
+    <property>
+        <name>hive.spark.client.server.connect.timeout</name>
+        <value>90000ms</value>
+    </property>
+    <property>
+        <name>hive.spark.client.server.max.tasks</name>
+        <value>100</value>
+    </property>
+    <property>
+        <name>spark.yarn.jars</name>
+        <value>hdfs://namenode:9000/spark/jars/*</value>
+    </property>
+    <property>
+        <name>spark.yarn.archive</name>
+        <value>hdfs://namenode:9000/spark/jars/</value>
+    </property>
+    <property>
+        <name>spark.sql.hive.metastore.jars</name>
+        <value>hdfs://namenode:9000/spark/jars/*</value>
+    </property>
+    -->
+</configuration>

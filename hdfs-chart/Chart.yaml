@@ -1,0 +1,5 @@
+apiVersion: v2
+name: hdfs-chart
+description: A Helm chart for Hadoop cluster
+version: 0.1.0
+appVersion: "1.0.0"

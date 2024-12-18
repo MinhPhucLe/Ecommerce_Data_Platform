@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hdfs-cluster-namenode-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi  # Adjust size as needed
+  storageClassName: standard  # Use your storage class
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hdfs-cluster-datanode-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi  # Adjust size as needed
+  storageClassName: standard  # Use your storage class

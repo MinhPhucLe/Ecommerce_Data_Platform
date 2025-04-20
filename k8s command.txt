@@ -15,3 +15,7 @@ kubectl create configmap hadoop-config --from-file=./hadoop-conf -o yaml --dry-r
 kubectl cp target/spark-jobs-1.0-SNAPSHOT.jar spark-master-0:/tmp
 kubectl port-forward hadoop-hadoop-yarn-rm-0 8088:8088
 kubectl port-forward hadoop-hadoop-hdfs-nn-0 9870:9870
+minikube delete --all --purge
+protoc --java_out=.\src\main\java .\src\main\java\org\example\protobuf\event.proto
+docker history --no-trunc <your-image-name>
+trino://admin@trino:8080/hive/default

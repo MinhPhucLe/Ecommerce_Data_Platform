@@ -103,8 +103,11 @@ diagnosticMode:
 ##
 image:
   registry: docker.io
-  repository: bitnami/spark
-  tag: 3.5.3-debian-12-r1
+  repository: lmphuc3012/spark_custom
+  tag: 3.5.3.1
+#  registry: docker.io
+#  repository: bitnami/spark
+#  tag: 3.5.3-debian-12-r1
   digest: ""
   ## Specify a imagePullPolicy
   ## ref: https://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
@@ -214,9 +217,9 @@ master:
     runAsUser: 1001
     runAsGroup: 1001
     runAsNonRoot: true
-    privileged: false
-    readOnlyRootFilesystem: true
-    allowPrivilegeEscalation: false
+    privileged: true
+    readOnlyRootFilesystem: false
+    allowPrivilegeEscalation: true
     capabilities:
       drop: ["ALL"]
     seccompProfile:
@@ -565,7 +568,7 @@ worker:
   ## @param worker.containerSecurityContext.runAsGroup Set containers' Security Context runAsGroup
   ## @param worker.containerSecurityContext.runAsNonRoot Set container's Security Context runAsNonRoot
   ## @param worker.containerSecurityContext.privileged Set container's Security Context privileged
-  ## @param worker.containerSecurityContext.readOnlyRootFilesystem Set container's Security Context readOnlyRootFilesystem
+  ## @param worker.containerSecurityContext.readOnlreadOnlyRootFilesystem Set container's Security Context readOnlyRootFilesystem
   ## @param worker.containerSecurityContext.allowPrivilegeEscalation Set container's Security Context allowPrivilegeEscalation
   ## @param worker.containerSecurityContext.capabilities.drop List of capabilities to be dropped
   ## @param worker.containerSecurityContext.seccompProfile.type Set container's Security Context seccomp profile
@@ -577,8 +580,8 @@ worker:
     runAsGroup: 1001
     runAsNonRoot: true
     privileged: false
-    readOnlyRootFilesystem: true
-    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    allowPrivilegeEscalation: true
     capabilities:
       drop: ["ALL"]
     seccompProfile:

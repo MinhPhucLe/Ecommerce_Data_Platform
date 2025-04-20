@@ -4,22 +4,14 @@
 airflow:
   ## if we use legacy 1.10 airflow commands
   ##
-
   legacyCommands: false
-#  env:
-#    - name: HADOOP_CONF_DIR
-#      value: /opt/hadoop/etc/hadoop
-#    - name: SPARK_HOME
-#      value: /home/airflow/.local/lib/python3.9/site-packages/pyspark
 
   ## configs for the airflow container image
   ##
   image:
-#    repository: apache/airflow
-#    tag: 2.8.4-python3.9
     repository: lmphuc3012/airflow_custom
     tag: latest
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     pullSecret: ""
     uid: 50000
     gid: 0
@@ -240,9 +232,6 @@ airflow:
   ##     - "SomeProject==1.0.0"
   ##
   extraPipPackages: []
-#    - "apache-airflow-providers-apache-spark"
-#    - "apache-airflow-providers-trino"
-#    - "pyspark==3.0.1"
 
   ## pip packages that are protected from upgrade/downgrade by `extraPipPackages`
   ## - [WARNING] Pods will fail to start if `extraPipPackages` would cause these packages to change versions
@@ -272,24 +261,19 @@ airflow:
   ## - spec for VolumeMount:
   ##   https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#volumemount-v1-core
   ##
-  extraVolumes:
-    - name: hadoop-conf
-      configMap:
-        name: hadoop-conf
-    - name: spark-conf
-      configMap:
-        name: spark-conf
-#    - name: spark-class
-#      configMap:
-#        name: spark-class
-
   extraVolumeMounts:
-    - name: hadoop-conf
+    - name: hadoop-config
       mountPath: /opt/hadoop/etc/hadoop
-    - name: spark-conf
-      mountPath: /opt/spark
-#    - name: spark-class
-#      mountPath: /opt/spark/bin
+
+
+  ## extra Volumes for the airflow Pods
+  ## - spec for Volume:
+  ##   https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#volume-v1-core
+  ##
+  extraVolumes:
+    - name: hadoop-config
+      configMap:
+        name: hadoop-config
 
   ## kubernetes cluster domain name
   ## - configured in the kubelet with `--cluster-domain` flag (deprecated):
@@ -962,11 +946,6 @@ workers:
   ## if the airflow workers StatefulSet should be deployed
   ##
   enabled: true
-#  env:
-#    - name: HADOOP_CONF_DIR
-#      value: /opt/hadoop/etc/hadoop
-#    - name: SPARK_HOME
-#      value: /home/airflow/.local/lib/python3.9/site-packages/pyspark
 
   ## the number of worker Pods to run
   ## - if you set this >1 we recommend defining a `workers.podDisruptionBudget`
@@ -1143,9 +1122,6 @@ workers:
   ##     - "SomeProject==1.0.0"
   ##
   extraPipPackages: []
-#    - "apache-airflow-providers-apache-spark"
-#    - "apache-airflow-providers-trino"
-#    - "pyspark==3.0.1"
 
   ## extra containers for the worker Pods
   ## - spec for Container:
@@ -1163,22 +1139,14 @@ workers:
   ## - spec for VolumeMount:
   ##   https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#volumemount-v1-core
   ##
-#  extraVolumes:
-#    - name: hadoop-conf
-#      configMap:
-#        name: hadoop-conf
-#    - name: spark-conf
-#      configMap:
-#        name: spark-conf
-#
-#  extraVolumeMounts:
-#    - name: hadoop-conf
-#      mountPath: /opt/hadoop/etc/hadoop
-#    - name: spark-conf
-#      mountPath: /opt/spark
-
-  extraVolumes: []
   extraVolumeMounts: []
+
+  ## extra Volumes for the worker Pods
+  ## - spec for Volume:
+  ##   https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#volume-v1-core
+  ##
+  extraVolumes: []
+
 ###################################
 ## COMPONENT | Triggerer
 ###################################

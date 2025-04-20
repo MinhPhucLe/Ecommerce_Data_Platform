@@ -3,6 +3,7 @@ kubectl describe svc kafka-broker -n hadoop-cluster
 kubectl scale deployment kafka-producer --replicas=0 -n hadoop-cluster
 kubectl get deployments -n hadoop-cluster
 kubectl describe pod kafka-producer-84694cc8f6-657v2 -n hadoop-cluster
+kubectl describe pod spark-master-0
 kubectl apply -f ./kafka-produce/kafka-producer-deployment.yaml -n hadoop-cluster
 docker login
 docker build -t lmphuc3012/python-kafka-producer .

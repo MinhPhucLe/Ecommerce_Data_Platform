@@ -14,9 +14,9 @@ public class simpleTask {
                 .enableHiveSupport()
                 .getOrCreate();
 
-        Dataset<Row> df = spark.read().parquet("hdfs://hadoop-hadoop-hdfs-nn:9000/data/event_ecommerce/event_date=20191001");
+        Dataset<Row> df = spark.read().csv("hdfs://hadoop-hadoop-hdfs-nn:9000/tst_folder/data.csv/");
         Dataset<Row> df1 = df.limit(100);
         df1.show();
-        df1.write().mode(SaveMode.Overwrite).parquet("hdfs://hadoop-hadoop-hdfs-nn:9000/test_simple_task");
+        df1.write().mode(SaveMode.Overwrite).csv("hdfs://hadoop-hadoop-hdfs-nn:9000/test_simple_task");
     }
 }

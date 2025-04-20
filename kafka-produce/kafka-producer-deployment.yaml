@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
         - name: kafka-producer
-          image: lmphuc3012/python-kafka-producer  # Use your image name
+#          image: lmphuc3012/python-kafka-producer  # Use your image name
+          image: lmphuc3012/tst_produce  # Use your image name
           ports:
             - containerPort: 8085
           env:

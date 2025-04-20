@@ -92,20 +92,21 @@ public class streaming_job {
             });
 
             SparkSession spark = SparkSession.builder().config(conf).config("spark.hadoop.fs.defaultFS", "hdfs://hadoop-hadoop-hdfs-nn:9000/").getOrCreate();
+            StructType schema = new StructType(new StructField[]{
+                    DataTypes.createStructField("event_date", DataTypes.StringType, true),
+                    DataTypes.createStructField("event_time", DataTypes.StringType, true),
+                    DataTypes.createStructField("event_type", DataTypes.StringType, true),
+                    DataTypes.createStructField("product_id", DataTypes.LongType, true),
+                    DataTypes.createStructField("category_id", DataTypes.LongType, true),
+                    DataTypes.createStructField("category_code", DataTypes.StringType, true),
+                    DataTypes.createStructField("brand", DataTypes.StringType, true),
+                    DataTypes.createStructField("price", DataTypes.FloatType, true),
+                    DataTypes.createStructField("user_id", DataTypes.LongType, true),
+                    DataTypes.createStructField("user_session", DataTypes.StringType, true),
+            });
 
             messages.foreachRDD(rdd -> {
-                StructType schema = new StructType(new StructField[]{
-                        DataTypes.createStructField("event_date", DataTypes.StringType, false),
-                        DataTypes.createStructField("event_time", DataTypes.StringType, false),
-                        DataTypes.createStructField("event_type", DataTypes.StringType, false),
-                        DataTypes.createStructField("product_id", DataTypes.LongType, false),
-                        DataTypes.createStructField("category_id", DataTypes.LongType, false),
-                        DataTypes.createStructField("category_code", DataTypes.StringType, false),
-                        DataTypes.createStructField("brand", DataTypes.StringType, false),
-                        DataTypes.createStructField("price", DataTypes.FloatType, false),
-                        DataTypes.createStructField("user_id", DataTypes.LongType, false),
-                        DataTypes.createStructField("user_session", DataTypes.StringType, false),
-                });
+
 
                 JavaRDD<Row> rowRDD = rdd.map(message -> {
                     String event_date = message.getEventDate();

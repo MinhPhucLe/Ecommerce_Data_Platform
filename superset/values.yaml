@@ -868,8 +868,7 @@ redis:
       accessModes:
         - ReadWriteOnce
 
-nodeSelector:
-  role: worker
+nodeSelector: {}
 
 tolerations: []
 

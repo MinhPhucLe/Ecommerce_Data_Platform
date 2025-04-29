@@ -893,18 +893,18 @@ web:
   ##
   readinessProbe:
     enabled: true
-    initialDelaySeconds: 10
+    initialDelaySeconds: 60
     periodSeconds: 10
-    timeoutSeconds: 5
+    timeoutSeconds: 15
     failureThreshold: 6
 
   ## configs for the web Pods' liveness probe
   ##
   livenessProbe:
     enabled: true
-    initialDelaySeconds: 10
-    periodSeconds: 10
-    timeoutSeconds: 5
+    initialDelaySeconds: 90
+    periodSeconds: 30
+    timeoutSeconds: 10
     failureThreshold: 6
 
   ## extra pip packages to install in the web Pods
@@ -1247,9 +1247,9 @@ triggerer:
   ##
   livenessProbe:
     enabled: true
-    initialDelaySeconds: 10
-    periodSeconds: 30
-    timeoutSeconds: 60
+    initialDelaySeconds: 60
+    periodSeconds: 60
+    timeoutSeconds: 180
     failureThreshold: 5
 
   ## extra pip packages to install in the triggerer Pod
@@ -1290,7 +1290,7 @@ triggerer:
 flower:
   ## if the airflow flower UI should be deployed
   ##
-  enabled: true
+  enabled: false
 
   ## the number of flower Pods to run
   ## - if you set this >1 we recommend defining a `flower.podDisruptionBudget`

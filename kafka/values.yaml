@@ -60,14 +60,14 @@ broker:
   readinessProbe:
     initialDelaySeconds: 25
     periodSeconds: 10
-    timeoutSeconds: 5
-    failureThreshold: 3
+    timeoutSeconds: 15
+    failureThreshold: 5
 
   ## broker.livenessProbe
   livenessProbe:
     initialDelaySeconds: 300
     periodSeconds: 30
-    timeoutSeconds: 5
+    timeoutSeconds: 15
     failureThreshold: 5
 
   ## broker.nodeSelector

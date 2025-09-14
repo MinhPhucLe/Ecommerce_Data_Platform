@@ -73,8 +73,8 @@ yarn:
         memory: "4096Mi"
         cpu: "2000m"
       limits:
-        memory: "4096Mi"
-        cpu: "2000m"
+        memory: "5120Mi"
+        cpu: "3000m"
 
 persistence:
   nameNode:

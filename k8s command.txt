@@ -16,6 +16,11 @@ kubectl cp target/spark-jobs-1.0-SNAPSHOT.jar spark-master-0:/tmp
 kubectl port-forward hadoop-hadoop-yarn-rm-0 8088:8088
 kubectl port-forward hadoop-hadoop-hdfs-nn-0 9870:9870
 minikube delete --all --purge
+minikube update-context
 protoc --java_out=.\src\main\java .\src\main\java\org\example\protobuf\event.proto
 docker history --no-trunc <your-image-name>
 trino://admin@trino:8080/hive/default
+SET spark.sql.catalog.nessie;
+USE nessie.nessie_db;
+$secret = kubectl get secret postgresql -n hadoop-cluster -o jsonpath="{.data.postgres-password}"
+$pass = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($secret))

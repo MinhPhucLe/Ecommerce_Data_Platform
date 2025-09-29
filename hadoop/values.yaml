@@ -78,13 +78,13 @@ yarn:
 
 persistence:
   nameNode:
-    enabled: false
-    storageClass: "-"
+    enabled: true
+    storageClass: "standard"
     accessMode: ReadWriteOnce
     size: 50Gi
 
   dataNode:
-    enabled: false
-    storageClass: "-"
+    enabled: true
+    storageClass: "standard"
     accessMode: ReadWriteOnce
-    size: 200Gi
+    size: 70Gi

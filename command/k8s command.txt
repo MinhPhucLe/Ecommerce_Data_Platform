@@ -24,3 +24,4 @@ SET spark.sql.catalog.nessie;
 USE nessie.nessie_db;
 $secret = kubectl get secret postgresql -n hadoop-cluster -o jsonpath="{.data.postgres-password}"
 $pass = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($secret))
+minikube service argocd-server -n argocd -p hadoop-cluster --url

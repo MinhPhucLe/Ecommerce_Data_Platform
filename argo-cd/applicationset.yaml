@@ -25,7 +25,7 @@ spec:
       project: default
       source:
         repoURL: 'https://github.com/MinhPhucLe/Ecommerce_Data_Platform.git'
-        path: 'chart-path'
+        path: '{{chart-path}}'
         targetRevision: pc-test-merge
         helm:
           valueFiles:

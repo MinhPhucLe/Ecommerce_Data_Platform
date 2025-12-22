@@ -1,0 +1,35 @@
+namenode:
+  image:
+    repository: bde2020/hadoop-namenode
+    tag: 2.0.0-hadoop3.2.1-java8
+  clusterName: test
+  service:
+    webui:
+      nodePort: 30870
+    fs:
+      nodePort: 30020
+    hdfs:
+      nodePort: 30900
+  persistence:
+    enabled: true
+    storageClass: "standard"
+    size: 10Gi
+
+datanode:
+  image:
+    repository: bde2020/hadoop-datanode
+    tag: 2.0.0-hadoop3.2.1-java8
+  replicas: 3
+  persistence:
+    enabled: true
+    storageClass: "standard"
+    size: 10Gi
+
+hadoopEnvVars:
+  CORE_CONF_fs_defaultFS: "hdfs://192.168.49.2:30900"# Updated to use the service name
+  CORE_CONF_hadoop_http_staticuser_user: "root"
+  CORE_CONF_hadoop_proxyuser_hue_hosts: "*"
+  CORE_CONF_io_compression_codecs: "org.apache.hadoop.io.compress.SnappyCodec"
+  HDFS_CONF_dfs_webhdfs_enabled: "true"
+  HDFS_CONF_dfs_permissions_enabled: "false"
+  HDFS_CONF_dfs_namenode_datanode_registration_ip___hostname___check: "false"

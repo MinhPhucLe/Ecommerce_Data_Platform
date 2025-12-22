@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-namenode  # Ensure this matches your deployment
+spec:
+  type: NodePort
+  ports:
+    - name: webui
+      port: 9870
+      targetPort: 9870
+      nodePort: {{ .Values.namenode.service.webui.nodePort }}  # Ensure this is defined in your values file
+    - name: fs
+      port: 8020
+      targetPort: 8020
+      nodePort: {{ .Values.namenode.service.fs.nodePort }}  # Ensure this is defined in your values file
+    - name: hdfs
+      port: 9000
+      targetPort: 9000
+      nodePort: {{ .Values.namenode.service.hdfs.nodePort }}  # Ensure this is defined in your values file
+  selector:
+    app: hdfs-namenode

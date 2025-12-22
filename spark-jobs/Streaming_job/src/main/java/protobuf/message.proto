@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package org.example.proto;
+
+message EventData {
+  string event_date = 1;
+  string event_time = 2;
+  string event_type = 3;
+  int64 product_id = 4;
+  int64 category_id = 5;
+  string category_code = 6;
+  string brand = 7;
+  float price = 8;
+  int64 user_id = 9;
+  string user_session = 10;
+}
+

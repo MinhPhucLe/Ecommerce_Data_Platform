@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-datanode
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-datanode
+  replicas: {{ .Values.datanode.replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-datanode
+    spec:
+      containers:
+        - name: datanode
+          image: {{ .Values.datanode.image.repository }}:{{ .Values.datanode.image.tag }}
+          env:
+        {{- range $key, $value := .Values.hadoopEnvVars }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+        {{- end }}
+          volumeMounts:
+            - name: hadoop-config
+              mountPath: /opt/hadoop-3.2.1/etc/hadoop
+            - name: datanode-data
+              mountPath: /hadoop/dfs/data
+      volumes:
+        - name: hadoop-config
+          configMap:
+            name: {{ .Release.Name }}-hadoop-config
+        - name: datanode-data
+        {{- if .Values.datanode.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-datanode-pvc
+        {{- else }}
+          emptyDir: {}
+        {{- end }}

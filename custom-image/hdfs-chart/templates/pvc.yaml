@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hdfs-namenode-pvc
+  labels:
+    {{- include "hadoop.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.namenode.persistence.size }}
+  storageClassName: {{ .Values.namenode.persistence.storageClass }}
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hdfs-datanode-pvc
+  labels:
+    {{- include "hadoop.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.datanode.persistence.size }}
+  storageClassName: {{ .Values.datanode.persistence.storageClass }}

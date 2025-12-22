@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: bigdata-cluster
+spec:
+  generators:
+    - list:
+        elements:
+          - name: hadoop
+            chartPath: chart/hadoop
+            namespace: hadoop-cluster
+#          - name: airflow
+#            chartPath: chart/airflow
+#            namespace: hadoop-cluster
+          - name: spark
+            chartPath: chart/spark
+            namespace: hadoop-cluster
+#          - name: trino
+#            chartPath: chart/trino
+#            namespace: hadoop-cluster
+  template:
+    metadata:
+      name: '{{name}}'
+    spec:
+      project: default
+      source:
+        repoURL: 'https://github.com/MinhPhucLe/Ecommerce_Data_Platform.git'
+        path: 'chart-path'
+        targetRevision: pc-test-merge
+        helm:
+          valueFiles:
+            - values.yaml
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: 'argocd'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

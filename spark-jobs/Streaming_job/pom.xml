@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>Streaming_job</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>22</maven.compiler.source>
+        <maven.compiler.target>22</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <!-- Kafka Consumer Dependency -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming_2.12</artifactId>
+            <version>3.5.1</version>
+        </dependency>
+
+        <!-- Kafka Integration with Spark -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-kafka-0-10_2.12</artifactId>
+            <version>3.5.1</version>
+        </dependency>
+
+        <!-- Kafka Clients -->
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>3.5.1</version>
+        </dependency>
+
+        <!-- Protobuf -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.12.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql_2.12</artifactId>
+            <version>3.5.1</version> <!-- Match your Spark version -->
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>org.example.KafkaStreamingApp</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <minimizeJar>true</minimizeJar>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.google.protobuf</pattern>
+                                    <shadedPattern>shaded.com.google.protobuf</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin> <artifactId>maven-resources-plugin</artifactId> <version>3.3.0</version> <executions> <execution> <id>copy-resources</id> <!-- here the phase you need --> <phase>validate</phase> <goals> <goal>copy-resources</goal> </goals> <configuration> <outputDirectory>dist/conf</outputDirectory> <resources> <resource> <directory>src/main/resources</directory> <excludes> <exclude>*application-local*</exclude> <exclude>protobuf/</exclude> </excludes> <filtering>true</filtering> </resource> </resources> </configuration> </execution> <execution> <id>copy-external-conf</id> <phase>validate</phase> <goals> <goal>copy-resources</goal> </goals> <configuration> <outputDirectory>dist/conf</outputDirectory> <resources> <resource> <directory>resources/conf</directory> </resource> </resources> </configuration> </execution> <execution> <id>copy-external-lib</id> <phase>validate</phase> <goals> <goal>copy-resources</goal> </goals> <configuration> <outputDirectory>dist/lib</outputDirectory> <resources> <resource> <directory>resources/lib</directory> </resource> </resources> </configuration> </execution> <execution> <id>copy-external-bin</id> <phase>validate</phase> <goals> <goal>copy-resources</goal> </goals> <configuration> <outputDirectory>dist/bin</outputDirectory> <resources> <resource> <directory>bin</directory> </resource> </resources> </configuration> </execution> </executions> </plugin> <!-- Copy dependencies|lib into dist/lib and jar fie into dist/ directory --> <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-dependency-plugin</artifactId> <version>2.10</version> <executions> <execution> <id>copy-lib</id> <phase>package</phase> <goals> <goal>copy-dependencies</goal> </goals> <configuration> <outputDirectory>dist/lib</outputDirectory> <excludeScope>provided</excludeScope> </configuration> </execution> <execution> <id>copy-dist</id> <phase>package</phase> <goals> <goal>copy</goal> </goals> <configuration> <artifactItems> <artifactItem> <groupId>${project.groupId}</groupId> <artifactId>${project.artifactId}</artifactId> <version>${project.version}</version> <overWrite>true</overWrite> <outputDirectory>dist</outputDirectory> </artifactItem> </artifactItems> </configuration> </execution> </executions> </plugin> <!-- Clean dist directory in clean phrase --> <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-clean-plugin</artifactId> <version>2.6.1</version> <configuration> <filesets> <fileset> <directory>dist</directory> </fileset> </filesets> </configuration> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId> <configuration> <source>8</source> <target>8</target> </configuration> </plugin>
+
+
+            <plugin>
+                <groupId>com.github.os72</groupId>
+                <artifactId>protoc-jar-maven-plugin</artifactId>
+                <version>3.11.4</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <outputTargets>
+                                <outputTarget>
+                                    <type>java</type>
+                                    <addSources>main</addSources>
+                                    <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+                                </outputTarget>
+                            </outputTargets>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

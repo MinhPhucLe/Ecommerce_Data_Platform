@@ -26,7 +26,7 @@ spec:
       source:
         repoURL: 'https://github.com/MinhPhucLe/Ecommerce_Data_Platform.git'
         path: '{{chart-path}}'
-        targetRevision: pc-test-merge
+        targetRevision: pc-test
         helm:
           valueFiles:
             - values.yaml

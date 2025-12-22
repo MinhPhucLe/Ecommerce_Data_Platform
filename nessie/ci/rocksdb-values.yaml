@@ -1,8 +1,0 @@
----
-versionStoreType: ROCKSDB
-extraVolumes:
-  - name: temp2
-    emptyDir: {}
-extraVolumeMounts:
-  - name: temp2
-    mountPath: /tmp2

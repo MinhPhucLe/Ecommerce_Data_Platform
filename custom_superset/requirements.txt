@@ -1,7 +1,0 @@
-psycopg2-binary>=2.9,<3.0
-flask
-flask_appbuilder
-pandas
-sqlalchemy
-apache-superset
-# Add other required dependencies here
